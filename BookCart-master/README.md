@@ -43,38 +43,172 @@ BookCart is a full-stack e-commerce application for buying and selling books. It
 ## Getting Started
 
 ### Prerequisites
-- .NET 8.0 SDK
-- Node.js and npm
-- MySQL Server
-- Visual Studio 2022 or VS Code
+1. **Development Tools**
+   - Visual Studio 2022 or VS Code
+   - .NET 8.0 SDK (Download from [.NET Downloads](https://dotnet.microsoft.com/download))
+   - Node.js v18+ (Download from [Node.js](https://nodejs.org/))
+   - npm (comes with Node.js)
+   - MySQL Server 8.0+ (Download from [MySQL](https://dev.mysql.com/downloads/mysql/))
+   - Git (Download from [Git](https://git-scm.com/downloads))
+
+2. **Required Extensions for VS Code**
+   - C# Dev Kit
+   - Angular Language Service
+   - ESLint
+   - Prettier
+   - GitLens
 
 ### Installation
 
-1. Clone the repository
-```bash
-git clone https://github.com/yourusername/BookCart.git
-```
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/yourusername/BookCart.git
+   cd BookCart
+   ```
 
-2. Set up the database
-```bash
-# Update the connection string in appsettings.json
-# Run the following commands in Package Manager Console
-Update-Database
-```
+2. **Database Setup**
+   ```bash
+   # Create MySQL database
+   mysql -u root -p
+   CREATE DATABASE BookCartDB;
+   exit;
 
-3. Install frontend dependencies
-```bash
-cd ClientApp
-npm install
-```
+   # Update connection string in appsettings.json
+   {
+     "ConnectionStrings": {
+       "DefaultConnection": "Server=localhost;Database=BookCartDB;User=root;Password=yourpassword;"
+     }
+   }
 
-4. Run the application
-```bash
-# From the root directory
-dotnet run
-```
+   # Run database migrations
+   dotnet ef database update
+   ```
 
-The application will be available at `https://localhost:7073`
+3. **Backend Setup**
+   ```bash
+   # Restore .NET packages
+   dotnet restore
+
+   # Build the project
+   dotnet build
+   ```
+
+4. **Frontend Setup**
+   ```bash
+   # Navigate to ClientApp directory
+   cd ClientApp
+
+   # Install npm packages
+   npm install
+
+   # Install Angular CLI globally (if not already installed)
+   npm install -g @angular/cli
+   ```
+
+5. **Environment Configuration**
+   - Copy `appsettings.Development.json` to `appsettings.json`
+   - Update the following settings:
+     ```json
+     {
+       "ConnectionStrings": {
+         "DefaultConnection": "your_connection_string"
+       },
+       "JWT": {
+         "ValidAudience": "http://localhost:4200",
+         "ValidIssuer": "http://localhost:5000",
+         "Secret": "your_jwt_secret_key"
+       },
+       "EmailSettings": {
+         "SmtpServer": "smtp.gmail.com",
+         "SmtpPort": 587,
+         "SmtpUsername": "your_email@gmail.com",
+         "SmtpPassword": "your_app_password"
+       }
+     }
+     ```
+
+### Running the Application
+
+1. **Start the Backend**
+   ```bash
+   # From the root directory
+   dotnet run
+   ```
+   The API will be available at `https://localhost:7073`
+
+2. **Start the Frontend**
+   ```bash
+   # From the ClientApp directory
+   ng serve
+   ```
+   The application will be available at `http://localhost:4200`
+
+### Default Admin Credentials
+- Email: admin@bookcart.com
+- Password: Admin@123
+
+## Development Guidelines
+
+### Code Style
+- Follow Angular style guide for frontend code
+- Use C# coding conventions for backend code
+- Use meaningful variable and function names
+- Add comments for complex logic
+- Keep functions small and focused
+
+### Git Workflow
+1. Create a new branch for each feature
+   ```bash
+   git checkout -b feature/your-feature-name
+   ```
+2. Make your changes and commit
+   ```bash
+   git add .
+   git commit -m "Description of your changes"
+   ```
+3. Push your changes
+   ```bash
+   git push origin feature/your-feature-name
+   ```
+4. Create a Pull Request
+
+### Testing
+- Run backend tests: `dotnet test`
+- Run frontend tests: `ng test`
+- Run e2e tests: `ng e2e`
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Database Connection Issues**
+   - Verify MySQL service is running
+   - Check connection string in appsettings.json
+   - Ensure database exists and migrations are applied
+
+2. **Frontend Build Issues**
+   - Clear npm cache: `npm cache clean --force`
+   - Delete node_modules: `rm -rf node_modules`
+   - Reinstall packages: `npm install`
+
+3. **JWT Authentication Issues**
+   - Check JWT secret in appsettings.json
+   - Verify token expiration settings
+   - Ensure correct audience and issuer URLs
+
+4. **Email Service Issues**
+   - Verify SMTP settings
+   - Check email credentials
+   - Ensure proper network access
+
+### Getting Help
+- Check the [Issues](https://github.com/yourusername/BookCart/issues) page
+- Create a new issue with:
+  - Description of the problem
+  - Steps to reproduce
+  - Expected behavior
+  - Actual behavior
+  - Screenshots (if applicable)
 
 ## Project Structure
 
@@ -84,11 +218,10 @@ BookCart/
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── components/   # Angular components
-│   │   │   │   ├── components/   # Angular components
-│   │   │   │   ├── services/     # Angular services
-│   │   │   │   ├── state/        # NgRx state management
-│   │   │   │   └── models/       # TypeScript interfaces
-│   │   │   └── assets/           # Static assets
+│   │   │   ├── services/     # Angular services
+│   │   │   ├── state/        # NgRx state management
+│   │   │   └── models/       # TypeScript interfaces
+│   │   └── assets/           # Static assets
 ├── Controllers/              # API controllers
 ├── Models/                   # C# models
 ├── Services/                 # Business logic
@@ -139,3 +272,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - NgRx for state management
 - Entity Framework Core for data access
 - MySQL for database
+
+## Contact
+
+For any questions or support, please contact:
+- Email: your-email@example.com
+- GitHub: [Your GitHub Profile](https://github.com/yourusername)
